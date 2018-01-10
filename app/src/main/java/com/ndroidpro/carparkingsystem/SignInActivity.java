@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(SignInActivity.this, CarListActivity.class));
+            startActivity(new Intent(SignInActivity.this, CarParkingLocationListActivity.class));
             finish();
         }
 
@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(SignInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(SignInActivity.this, CarListActivity.class);
+                                    Intent intent = new Intent(SignInActivity.this, CarParkingLocationListActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }

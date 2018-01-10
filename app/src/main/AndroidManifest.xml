@@ -30,7 +30,7 @@
 
         <activity android:name=".ProfileActivity"/>
 
-        <activity android:name=".CarListActivity">
+        <activity android:name=".CarParkingLocationListActivity">
         </activity>
     </application>
 

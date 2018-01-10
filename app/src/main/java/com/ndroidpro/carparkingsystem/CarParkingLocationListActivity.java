@@ -2,12 +2,11 @@ package com.ndroidpro.carparkingsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class CarListActivity extends AppCompatActivity {
+public class CarParkingLocationListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class CarListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(CarListActivity.this, ProfileActivity.class));
+            startActivity(new Intent(CarParkingLocationListActivity.this, ProfileActivity.class));
             return true;
         }
 
