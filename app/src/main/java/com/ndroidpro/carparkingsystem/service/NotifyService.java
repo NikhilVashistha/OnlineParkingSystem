@@ -1,20 +1,22 @@
 package com.ndroidpro.carparkingsystem.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.activity.CarParkingActivity;
 import com.ndroidpro.carparkingsystem.activity.CarParkingLocationListActivity;
-import com.ndroidpro.carparkingsystem.R;
 
 /**
  * This service is started when an Alarm has been raised
@@ -44,6 +46,13 @@ public class NotifyService extends Service {
     public void onCreate() {
         Log.i("NotifyService", "onCreate()");
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationChannel channel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            channel = new NotificationChannel("notify_001",
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            mNM.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -77,7 +86,7 @@ public class NotifyService extends Service {
         // This is the icon to use on the notification
         int icon = R.drawable.sports_car_green;
 
-        Bitmap iconBitmap = BitmapFactory.decodeResource(this.getResources(),
+        Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(),
                 icon);
         // This is the scrolling text of the notification
         CharSequence text = "Hey!!! Your car parking booking has been expired. Do you want to renew it?";
@@ -92,12 +101,18 @@ public class NotifyService extends Service {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(icon)
                 .setLargeIcon(iconBitmap)
+                .setColor(Color.argb(0, 45, 135, 198))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setTicker(tickerText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setShowWhen(true)
-                .setWhen(time);
+                .setWhen(time)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         Intent answerIntent = new Intent(this, CarParkingActivity.class);
         answerIntent.setAction("Yes");
@@ -109,11 +124,6 @@ public class NotifyService extends Service {
 
         notificationBuilder.setContentIntent(contentIntent);
         Notification notification = notificationBuilder.build();
-
-        // Clear the notification when it is pressed
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notification.defaults |= Notification.DEFAULT_SOUND;
 
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -100,19 +101,20 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(icon)
                 .setLargeIcon(iconBitmap)
+                .setColor(Color.argb(0, 45, 135, 198))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setTicker(tickerText)
                 .setShowWhen(true)
-                .setWhen(time);
+                .setWhen(time)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         notificationBuilder.setContentIntent(contentIntent);
         Notification notification = notificationBuilder.build();
-
-        // Clear the notification when it is pressed
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notification.defaults |= Notification.DEFAULT_SOUND;
 
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);
