@@ -1,6 +1,7 @@
 package com.ndroidpro.carparkingsystem.activity;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -73,6 +74,12 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         });
 
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("notify_001",
+                    "Channel Car Parking",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            mNM.createNotificationChannel(channel);
+        }
     }
 
     /**

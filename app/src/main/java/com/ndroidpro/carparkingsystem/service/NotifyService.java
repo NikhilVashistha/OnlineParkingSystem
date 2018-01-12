@@ -46,10 +46,9 @@ public class NotifyService extends Service {
     public void onCreate() {
         Log.i("NotifyService", "onCreate()");
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationChannel channel = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            channel = new NotificationChannel("notify_001",
-                    "Channel human readable title",
+            NotificationChannel channel = new NotificationChannel("notify_001",
+                    "Channel Car Parking",
                     NotificationManager.IMPORTANCE_DEFAULT);
             mNM.createNotificationChannel(channel);
         }
