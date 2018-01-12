@@ -1,4 +1,4 @@
-package com.ndroidpro.carparkingsystem;
+package com.ndroidpro.carparkingsystem.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ndroidpro.carparkingsystem.R;
 
 public class ProfileActivity extends AppCompatActivity {
 

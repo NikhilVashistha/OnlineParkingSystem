@@ -1,4 +1,4 @@
-package com.ndroidpro.carparkingsystem;
+package com.ndroidpro.carparkingsystem.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
+import com.ndroidpro.carparkingsystem.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +94,10 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == AbstractItem.TYPE_CENTER) {
-            View itemView = mLayoutInflater.inflate(R.layout.list_item_seat, parent, false);
+            View itemView = mLayoutInflater.inflate(R.layout.list_item_car_parking, parent, false);
             return new CenterViewHolder(itemView);
         } else if (viewType == AbstractItem.TYPE_EDGE) {
-            View itemView = mLayoutInflater.inflate(R.layout.list_item_seat, parent, false);
+            View itemView = mLayoutInflater.inflate(R.layout.list_item_car_parking, parent, false);
             return new EdgeViewHolder(itemView);
         } else {
             View itemView = new View(mContext);

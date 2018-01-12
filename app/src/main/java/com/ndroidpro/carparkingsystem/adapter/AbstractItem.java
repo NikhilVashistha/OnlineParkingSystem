@@ -1,4 +1,4 @@
-package com.ndroidpro.carparkingsystem;
+package com.ndroidpro.carparkingsystem.adapter;
 
 public abstract class AbstractItem {
 

@@ -1,4 +1,4 @@
-package com.ndroidpro.carparkingsystem;
+package com.ndroidpro.carparkingsystem.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

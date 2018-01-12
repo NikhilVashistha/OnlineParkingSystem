@@ -30,4 +30,6 @@
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
 
+    <color name="background_grey">#d3d3d3</color>
+
 </resources>

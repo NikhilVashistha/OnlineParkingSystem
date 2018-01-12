@@ -1,4 +1,4 @@
-package com.ndroidpro.carparkingsystem;
+package com.ndroidpro.carparkingsystem.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;

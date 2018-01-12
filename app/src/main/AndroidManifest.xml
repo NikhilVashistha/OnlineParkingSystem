@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.ActionBar">
 
-        <activity android:name=".SignInActivity"
+        <activity android:name=".activity.SignInActivity"
                   android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,18 +20,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SignUpActivity"
+        <activity android:name=".activity.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".CarParkingActivity"/>
+        <activity android:name=".activity.CarParkingActivity"/>
 
-        <activity android:name=".ResetPasswordActivity"
+        <activity android:name=".activity.ResetPasswordActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".activity.ProfileActivity"/>
 
-        <activity android:name=".CarParkingLocationListActivity">
+        <activity android:name=".activity.CarParkingLocationListActivity">
         </activity>
+
+        <service android:name=".service.ScheduleService" />
+        <service android:name=".service.NotifyService" />
     </application>
 
 </manifest>
