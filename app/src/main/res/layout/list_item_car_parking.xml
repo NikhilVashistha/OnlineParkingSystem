@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
-    <ImageView
-        android:id="@+id/img_seat"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/car_top_view_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <ImageView
-        android:id="@+id/img_seat_selected"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/car_top_view_gray"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/img_seat"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/car_top_view_gray"
+            tools:rotation="-90"/>
+
+        <ImageView
+            android:id="@+id/img_seat_selected"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/car_top_view_gray"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/car_grey"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_car_parking_id"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:textColor="@color/car_black"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-3dp"
+        android:rotation="90"/>
+
+</FrameLayout>

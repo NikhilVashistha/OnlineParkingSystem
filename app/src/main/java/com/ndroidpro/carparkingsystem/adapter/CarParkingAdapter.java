@@ -2,15 +2,20 @@ package com.ndroidpro.carparkingsystem.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 import com.ndroidpro.carparkingsystem.R;
+import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +26,31 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
     private static class EdgeViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgAvailableParking;
+        private final ImageView imgAvailableParking;
         private final ImageView imgParkingSelected;
+        private final TextView tvCarParkingId;
 
 
         public EdgeViewHolder(View itemView) {
             super(itemView);
             imgAvailableParking = (ImageView) itemView.findViewById(R.id.img_seat);
             imgParkingSelected = (ImageView) itemView.findViewById(R.id.img_seat_selected);
-
+            tvCarParkingId = (TextView) itemView.findViewById(R.id.tv_car_parking_id);
         }
 
     }
 
     private static class CenterViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgAvailableParking;
+        private final ImageView imgAvailableParking;
         private final ImageView imgParkingSelected;
+        private final TextView tvCarParkingId;
 
         public CenterViewHolder(View itemView) {
             super(itemView);
             imgAvailableParking = (ImageView) itemView.findViewById(R.id.img_seat);
             imgParkingSelected = (ImageView) itemView.findViewById(R.id.img_seat_selected);
-
-
+            tvCarParkingId = (TextView) itemView.findViewById(R.id.tv_car_parking_id);
         }
 
     }
@@ -128,6 +134,17 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                     holder.imgParkingSelected.getContext().getResources()
                             .getColor(getColors(position, true)));
 
+            holder.tvCarParkingId.setText(String.valueOf(position));
+
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(dpTopx(10), dpTopx(-3), 0, 0);
+
+            params.gravity = Gravity.CENTER;
+
+            holder.tvCarParkingId.setLayoutParams(params);
 
         } else if (type == AbstractItem.TYPE_EDGE) {
             final EdgeItem item = (EdgeItem) mItems.get(position);
@@ -150,7 +167,28 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
             holder.imgParkingSelected.setColorFilter(
                     holder.imgParkingSelected.getContext().getResources()
                             .getColor(getColors(position, false)));
+
+            holder.tvCarParkingId.setText(String.valueOf(position));
+
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(0, dpTopx(-3), dpTopx(10), 0);
+
+            params.gravity = Gravity.CENTER;
+
+            holder.tvCarParkingId.setLayoutParams(params);
+
         }
+    }
+
+    private int dpTopx(int dpValue) {
+        Resources r = mContext.getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dpValue,
+                r.getDisplayMetrics());
     }
 
     private int getColors(int position, boolean rightSide){
