@@ -5,8 +5,7 @@
     android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="right">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +14,9 @@
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:gravity="right"
+        android:layout_alignParentRight="true">
 
         <ImageView
             android:id="@+id/img_seat"

@@ -21,7 +21,6 @@ import com.ndroidpro.carparkingsystem.adapter.AbstractItem;
 import com.ndroidpro.carparkingsystem.adapter.CarParkingAdapter;
 import com.ndroidpro.carparkingsystem.adapter.CenterItem;
 import com.ndroidpro.carparkingsystem.adapter.EdgeItem;
-import com.ndroidpro.carparkingsystem.adapter.EmptyItem;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 import com.ndroidpro.carparkingsystem.service.ScheduleClient;
 
@@ -32,7 +31,7 @@ import java.util.List;
 
 public class CarParkingActivity extends BaseActivity implements OnParkingSelected {
 
-    public static final int COLUMNS = 3;
+    public static final int COLUMNS = 2;
     private AppCompatButton mBtnSeatSelected;
     private int parkingReservationTime = 0;
 
@@ -131,10 +130,8 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         List<AbstractItem> items = new ArrayList<>();
         for (int i=0; i<30; i++) {
 
-            if (i%COLUMNS==0 || i%COLUMNS==4) {
+            if ( i%2==0 ) {
                 items.add(new EdgeItem(String.valueOf(i)));
-            } else if (i%COLUMNS==1 || i%COLUMNS==3) {
-                items.add(new EmptyItem(String.valueOf(i)));
             } else {
                 items.add(new CenterItem(String.valueOf(i)));
             }

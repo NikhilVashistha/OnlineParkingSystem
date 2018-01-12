@@ -6,12 +6,11 @@ import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ndroidpro.carparkingsystem.R;
@@ -100,7 +99,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == AbstractItem.TYPE_CENTER) {
-            View itemView = mLayoutInflater.inflate(R.layout.list_item_car_parking, parent, false);
+            View itemView = mLayoutInflater.inflate(R.layout.list_item_car_parking_right, parent, false);
             return new CenterViewHolder(itemView);
         } else if (viewType == AbstractItem.TYPE_EDGE) {
             View itemView = mLayoutInflater.inflate(R.layout.list_item_car_parking, parent, false);
@@ -114,9 +113,12 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
         int type = mItems.get(position).getType();
+        int showCarParkingId = position + 1;
         if (type == AbstractItem.TYPE_CENTER) {
+
             final CenterItem item = (CenterItem) mItems.get(position);
             final CenterViewHolder holder = (CenterViewHolder) viewHolder;
+
             holder.imgAvailableParking.setRotation(-90);
             holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,19 +136,19 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                     holder.imgParkingSelected.getContext().getResources()
                             .getColor(getColors(position, true)));
 
-            holder.tvCarParkingId.setText(String.valueOf(position));
+            holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
 
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             params.setMargins(dpTopx(10), dpTopx(-3), 0, 0);
 
-            params.gravity = Gravity.CENTER;
 
             holder.tvCarParkingId.setLayoutParams(params);
 
         } else if (type == AbstractItem.TYPE_EDGE) {
+
             final EdgeItem item = (EdgeItem) mItems.get(position);
             final EdgeViewHolder holder = (EdgeViewHolder) viewHolder;
 
@@ -168,15 +170,14 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                     holder.imgParkingSelected.getContext().getResources()
                             .getColor(getColors(position, false)));
 
-            holder.tvCarParkingId.setText(String.valueOf(position));
+            holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
 
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             params.setMargins(0, dpTopx(-3), dpTopx(10), 0);
 
-            params.gravity = Gravity.CENTER;
 
             holder.tvCarParkingId.setLayoutParams(params);
 
