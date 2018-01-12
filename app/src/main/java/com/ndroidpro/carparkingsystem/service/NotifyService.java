@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ndroidpro.carparkingsystem.activity.CarParkingActivity;
 import com.ndroidpro.carparkingsystem.activity.CarParkingLocationListActivity;
 import com.ndroidpro.carparkingsystem.R;
 
@@ -70,14 +71,17 @@ public class NotifyService extends Service {
      */
     private void showNotification() {
         // This is the 'title' of the notification
-        CharSequence title = "Alarm!!";
+        CharSequence title = "Car Parking Booking Expired!!";
+        String tickerText = "Parking Booking Expired";
+
         // This is the icon to use on the notification
-        int icon = R.drawable.car_top_view_gray;
+        int icon = R.drawable.sports_car_green;
 
         Bitmap iconBitmap = BitmapFactory.decodeResource(this.getResources(),
                 icon);
         // This is the scrolling text of the notification
-        CharSequence text = "Your notification time is upon us.";
+        CharSequence text = "Hey!!! Your car parking booking has been expired. Do you want to renew it?";
+
         // What time to show on the notification
         long time = System.currentTimeMillis();
 
@@ -90,8 +94,18 @@ public class NotifyService extends Service {
                 .setLargeIcon(iconBitmap)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setTicker(tickerText)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setShowWhen(true)
                 .setWhen(time);
+
+        Intent answerIntent = new Intent(this, CarParkingActivity.class);
+        answerIntent.setAction("Yes");
+        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.addAction(R.drawable.thumbs_up, "Yes", pendingIntentYes);
+        answerIntent.setAction("No");
+        PendingIntent pendingIntentNo = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.addAction(R.drawable.thumbs_down, "No", pendingIntentNo);
 
         notificationBuilder.setContentIntent(contentIntent);
         Notification notification = notificationBuilder.build();

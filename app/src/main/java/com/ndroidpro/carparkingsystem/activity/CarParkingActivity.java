@@ -1,19 +1,26 @@
 package com.ndroidpro.carparkingsystem.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.adapter.AbstractItem;
 import com.ndroidpro.carparkingsystem.adapter.CarParkingAdapter;
 import com.ndroidpro.carparkingsystem.adapter.CenterItem;
 import com.ndroidpro.carparkingsystem.adapter.EdgeItem;
 import com.ndroidpro.carparkingsystem.adapter.EmptyItem;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
-import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.service.ScheduleClient;
 
 import java.util.ArrayList;
@@ -31,6 +38,10 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
     private ScheduleClient scheduleClient;
     private RecyclerView recyclerView;
     private CarParkingAdapter adapter;
+
+    private NotificationManager mNM;
+    // Unique id to identify the notification.
+    private static final int NOTIFICATION = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +61,7 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         mBtnSeatSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showNotification();
                 // Will give the current date time calendar
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(new Date());
@@ -59,6 +70,52 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
                 scheduleClient.setAlarmForNotification(calendar);
             }
         });
+
+        mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    }
+
+    /**
+     * Creates a notification and shows it in the OS drag-down status bar
+     */
+    private void showNotification() {
+        // This is the 'title' of the notification
+        CharSequence title = "Car Parking Booked!!";
+        String tickerText = "Parking Booked";
+
+        // This is the icon to use on the notification
+        int icon = R.drawable.sports_car_green;
+
+        Bitmap iconBitmap = BitmapFactory.decodeResource(this.getResources(),
+                icon);
+        // This is the scrolling text of the notification
+        CharSequence text = "Hey!!! Your car parking has been booked.";
+
+        // What time to show on the notification
+        long time = System.currentTimeMillis();
+
+        // The PendingIntent to launch our activity if the user selects this notification
+        Intent intent = new Intent(this, CarParkingLocationListActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(icon)
+                .setLargeIcon(iconBitmap)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setTicker(tickerText)
+                .setShowWhen(true)
+                .setWhen(time);
+
+        notificationBuilder.setContentIntent(contentIntent);
+        Notification notification = notificationBuilder.build();
+
+        // Clear the notification when it is pressed
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notification.defaults |= Notification.DEFAULT_SOUND;
+
+        // Send the notification to the system.
+        mNM.notify(NOTIFICATION, notification);
     }
 
     private void setDataToRecyclerView() {
