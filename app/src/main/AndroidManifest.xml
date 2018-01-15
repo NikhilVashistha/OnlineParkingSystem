@@ -35,6 +35,8 @@
 
         <activity android:name=".activity.PaymentActivity">
         </activity>
+        <activity android:name=".activity.AddNewParkingLocation">
+        </activity>
     </application>
 
 </manifest>

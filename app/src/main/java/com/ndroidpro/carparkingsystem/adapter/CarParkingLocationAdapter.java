@@ -8,16 +8,17 @@ import android.widget.TextView;
 
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.listener.ClickListener;
+import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CarParkingLocationAdapter extends RecyclerView.Adapter<CarParkingLocationAdapter.ViewHolder>{
 
-    private List<String> locationList = Collections.emptyList();
+    private List<CarParkingLocationModel> locationList = Collections.emptyList();
     private ClickListener clickListener;
 
-    public CarParkingLocationAdapter( List<String> locationList ) {
+    public CarParkingLocationAdapter( List<CarParkingLocationModel> locationList ) {
         this.locationList = locationList;
     }
 
@@ -29,7 +30,8 @@ public class CarParkingLocationAdapter extends RecyclerView.Adapter<CarParkingLo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvName.setText(locationList.get(position));
+        CarParkingLocationModel carParkingLocationModel = locationList.get(position);
+        holder.tvName.setText(carParkingLocationModel.getCarParkingLocationName());
     }
 
     @Override

@@ -54,9 +54,37 @@
                 android:textColorHint="@android:color/white" />
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Select User Role"/>
+
+        <RadioGroup
+            android:id="@+id/radio_user_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left">
+
+            <RadioButton
+                android:id="@+id/radio_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radio_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin" />
+
+        </RadioGroup>
+
+
         <!-- Login Button -->
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -65,7 +93,7 @@
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -77,7 +105,7 @@
 
         <!-- Link to Login Screen -->
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

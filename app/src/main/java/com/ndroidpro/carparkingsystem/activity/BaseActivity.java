@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ndroidpro.carparkingsystem.Session;
 
 public class BaseActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
+    private Session session;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,6 +23,7 @@ public class BaseActivity extends AppCompatActivity {
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
+        session = new Session(BaseActivity.this);
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -51,5 +55,13 @@ public class BaseActivity extends AppCompatActivity {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+    }
+
+    public boolean isUserAdmin(){
+        return session.getIsAdmin();
+    }
+
+    public boolean isNonEmpty(String s){
+        return !TextUtils.isEmpty(s);
     }
 }

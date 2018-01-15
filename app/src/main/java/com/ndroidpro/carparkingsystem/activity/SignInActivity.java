@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ndroidpro.carparkingsystem.R;
+import com.ndroidpro.carparkingsystem.Session;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -23,6 +26,9 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    private RadioGroup radioUserRoleGroup;
+    private RadioButton radioUserRoleButton;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,8 @@ public class SignInActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        session = new Session(SignInActivity.this);
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(SignInActivity.this, CarParkingLocationListActivity.class));
@@ -45,6 +53,8 @@ public class SignInActivity extends AppCompatActivity {
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
+
+        radioUserRoleGroup = (RadioGroup) findViewById(R.id.radio_user_role);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -98,6 +108,15 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(SignInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    int selectedId = radioUserRoleGroup.getCheckedRadioButtonId();
+
+                                    // find the radiobutton by returned id
+                                    radioUserRoleButton = (RadioButton) findViewById(selectedId);
+                                    if( radioUserRoleButton.getText().toString().equals(getResources().getString(R.string.admin)) ){
+                                        session.setIsAdmin(true);
+                                    }else {
+                                        session.setIsAdmin(false);
+                                    }
                                     Intent intent = new Intent(SignInActivity.this, CarParkingLocationListActivity.class);
                                     startActivity(intent);
                                     finish();
