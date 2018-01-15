@@ -16,6 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.adapter.AbstractItem;
 import com.ndroidpro.carparkingsystem.adapter.CarParkingAdapter;
@@ -64,13 +65,14 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         mBtnSeatSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNotification();
-                // Will give the current date time calendar
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                calendar.add(Calendar.SECOND, parkingReservationTime);
-                // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-                scheduleClient.setAlarmForNotification(calendar);
+
+                showCarParkingBookedNotification();
+
+                scheduleCarParkingExpiringNotification();
+
+                Intent intent = new Intent(CarParkingActivity.this, PaymentActivity.class);
+                intent.putExtra(Constants.INTENT_PAYMENT, mCarParkingModel);
+                startActivity(intent);
             }
         });
 
@@ -83,10 +85,19 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         }
     }
 
+    private void scheduleCarParkingExpiringNotification() {
+        // Will give the current date time calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.SECOND, parkingReservationTime);
+        // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
+        scheduleClient.setAlarmForNotification(calendar);
+    }
+
     /**
      * Creates a notification and shows it in the OS drag-down status bar
      */
-    private void showNotification() {
+    private void showCarParkingBookedNotification() {
         // This is the 'title' of the notification
         CharSequence title = "Car Parking Booked!!";
         String tickerText = "Parking Booked";
