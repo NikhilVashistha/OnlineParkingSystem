@@ -177,7 +177,6 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
     private int getColors(){
         Random random = new Random();
         int colorIndex = random.nextInt(5 - 0 + 1) + 0;
-        System.out.println("colorIndex : " +colorIndex);
         return colorList.get(colorIndex);
     }
 
