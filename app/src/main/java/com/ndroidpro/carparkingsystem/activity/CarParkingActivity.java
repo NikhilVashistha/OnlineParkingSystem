@@ -22,6 +22,7 @@ import com.ndroidpro.carparkingsystem.adapter.CarParkingAdapter;
 import com.ndroidpro.carparkingsystem.adapter.CenterItem;
 import com.ndroidpro.carparkingsystem.adapter.EdgeItem;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
+import com.ndroidpro.carparkingsystem.model.CarParkingModel;
 import com.ndroidpro.carparkingsystem.service.ScheduleClient;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
     private NotificationManager mNM;
     // Unique id to identify the notification.
     private static final int NOTIFICATION = 1234;
+    private CarParkingModel mCarParkingModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +130,15 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
 
     private void setDataToRecyclerView() {
         List<AbstractItem> items = new ArrayList<>();
-        for (int i=0; i<30; i++) {
 
-            if ( i%2==0 ) {
-                items.add(new EdgeItem(String.valueOf(i)));
+        CarParkingModel carParkingModel = new CarParkingModel();
+
+        for ( int i=0; i<30; i++ ) {
+            carParkingModel.setLabel(String.valueOf(i));
+            if ( i%2 == 0 ) {
+                items.add(new EdgeItem(carParkingModel));
             } else {
-                items.add(new CenterItem(String.valueOf(i)));
+                items.add(new CenterItem(carParkingModel));
             }
         }
 
@@ -157,11 +162,13 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
     }
 
     @Override
-    public void onParkingSelected(int price, int hour) {
+    public void onParkingSelected(CarParkingModel carParkingModel) {
         Resources res = getResources();
-        String text = res.getQuantityString(R.plurals.price_label, hour, price, hour);
+        String text = res.getQuantityString(R.plurals.price_label, carParkingModel.getHour(),
+                carParkingModel.getPrice(), carParkingModel.getHour());
         mBtnSeatSelected.setVisibility(View.VISIBLE);
         mBtnSeatSelected.setText(text);
-        parkingReservationTime = hour;
+        parkingReservationTime = carParkingModel.getHour();
+        mCarParkingModel = carParkingModel;
     }
 }

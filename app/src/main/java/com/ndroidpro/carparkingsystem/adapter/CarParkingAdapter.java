@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
+import com.ndroidpro.carparkingsystem.model.CarParkingModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.get(position).getType();
+        return getItem(position).getType();
     }
 
     @Override
@@ -108,11 +109,11 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
-        int type = mItems.get(position).getType();
+        int type = getItem(position).getType();
         int showCarParkingId = position + 1;
         if (type == AbstractItem.TYPE_CENTER) {
 
-            final CenterItem item = (CenterItem) mItems.get(position);
+            final CenterItem item = (CenterItem) getItem(position);
             final CenterViewHolder holder = (CenterViewHolder) viewHolder;
 
             holder.imgAvailableParking.setRotation(-90);
@@ -138,7 +139,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
         } else if (type == AbstractItem.TYPE_EDGE) {
 
-            final EdgeItem item = (EdgeItem) mItems.get(position);
+            final EdgeItem item = (EdgeItem) getItem(position);
             final EdgeViewHolder holder = (EdgeViewHolder) viewHolder;
 
             holder.imgAvailableParking.setRotation(90);
@@ -216,10 +217,20 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 }
 
                 toggleSelection(position);
-                mOnParkingSelected.onParkingSelected(price, hour);
+                AbstractItem abstractItem = getItem(position);
+                CarParkingModel carParkingModel = new CarParkingModel();
+                carParkingModel.setHour(hour);
+                carParkingModel.setPrice(price);
+                carParkingModel.setLabel(String.valueOf(position + 1 ));
+                abstractItem.setCarParkingModel(carParkingModel);
+                mOnParkingSelected.onParkingSelected( abstractItem.getCarParkingModel() );
             }
         });
         builder.show();
+    }
+
+    private AbstractItem getItem(int position) {
+        return mItems.get(position);
     }
 
 }
