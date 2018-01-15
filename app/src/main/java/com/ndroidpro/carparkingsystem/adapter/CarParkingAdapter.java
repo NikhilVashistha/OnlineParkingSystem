@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ndroidpro.carparkingsystem.R;
@@ -18,6 +17,7 @@ import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
 
@@ -76,14 +76,10 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
         colorList = new ArrayList<>();
         colorList.add(R.color.car_blue);
         colorList.add(R.color.car_red);
+        colorList.add(R.color.car_black);
         colorList.add(R.color.car_yellow);
         colorList.add(R.color.car_green);
         colorList.add(R.color.car_pink);
-        colorList.add(R.color.car_black);
-        colorList.add(R.color.car_blue);
-        colorList.add(R.color.car_red);
-        colorList.add(R.color.car_yellow);
-        colorList.add(R.color.car_green);
     }
 
     @Override
@@ -132,20 +128,13 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
             holder.imgParkingSelected.setRotation(-90);
             holder.imgParkingSelected.setVisibility(isSelected(position) ? View.VISIBLE : View.GONE);
 
-            holder.imgParkingSelected.setColorFilter(
-                    holder.imgParkingSelected.getContext().getResources()
-                            .getColor(getColors(position, true)));
+            if(isSelected(position)) {
+                holder.imgParkingSelected.setColorFilter(
+                        holder.imgParkingSelected.getContext().getResources()
+                                .getColor(getColors()));
+            }
 
             holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(dpTopx(10), dpTopx(-3), 0, 0);
-
-
-            holder.tvCarParkingId.setLayoutParams(params);
 
         } else if (type == AbstractItem.TYPE_EDGE) {
 
@@ -166,20 +155,13 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
             holder.imgParkingSelected.setRotation(90);
             holder.imgParkingSelected.setVisibility(isSelected(position) ? View.VISIBLE : View.GONE);
 
-            holder.imgParkingSelected.setColorFilter(
-                    holder.imgParkingSelected.getContext().getResources()
-                            .getColor(getColors(position, false)));
+            if(isSelected(position)) {
+                holder.imgParkingSelected.setColorFilter(
+                        holder.imgParkingSelected.getContext().getResources()
+                                .getColor(getColors()));
+            }
 
             holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(0, dpTopx(-3), dpTopx(10), 0);
-
-
-            holder.tvCarParkingId.setLayoutParams(params);
 
         }
     }
@@ -192,11 +174,10 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 r.getDisplayMetrics());
     }
 
-    private int getColors(int position, boolean rightSide){
-        if(rightSide){
-            position -= 2;
-        }
-        int colorIndex = position / 3;
+    private int getColors(){
+        Random random = new Random();
+        int colorIndex = random.nextInt(5 - 0 + 1) + 0;
+        System.out.println("colorIndex : " +colorIndex);
         return colorList.get(colorIndex);
     }
 

@@ -23,7 +23,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/car_top_view_gray"
-            tools:rotation="90"/>
+            tools:rotation="-90"/>
 
         <ImageView
             android:id="@+id/img_seat_selected"
@@ -46,8 +46,10 @@
         android:layout_height="wrap_content"
         tools:text="1"
         android:textColor="@color/car_black"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="-3dp"
-        android:rotation="90"/>
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="-5dp"
+        android:rotation="-90"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

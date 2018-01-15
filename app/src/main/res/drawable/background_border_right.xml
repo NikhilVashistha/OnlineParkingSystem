@@ -14,7 +14,7 @@
 
     <!-- This is for border right but
     you can change this according to your need -->
-    <item android:right="2dp" >
+    <item android:right="2dp" android:left="2dp">
         <shape
             android:shape="rectangle">
             <!-- Set the background color of your layout here -->
