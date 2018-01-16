@@ -10,18 +10,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.adapter.CarParkingLocationAdapter;
 import com.ndroidpro.carparkingsystem.listener.ClickListener;
 import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CarParkingLocationListActivity extends BaseActivity {
 
-    private List<CarParkingLocationModel> locationList;
+    private CarParkingLocationAdapter carParkingLocationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,29 +46,52 @@ public class CarParkingLocationListActivity extends BaseActivity {
         }
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.location_list_recyclerview);
         recyclerView.setLayoutManager(manager);
 
-        locationList = new ArrayList<>();
-        locationList.add(new CarParkingLocationModel("GNG Mall", 10));
-        locationList.add(new CarParkingLocationModel("Gandhi Park", 30));
-        CarParkingLocationAdapter adapter = new CarParkingLocationAdapter( locationList );
-        recyclerView.setAdapter(adapter);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-        adapter.setOnItemClickListener(new ClickListener() {
+        Query postsQuery = database.child(Constants.DB_CAR_PARKING_LOCATION_LIST);
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<CarParkingLocationModel>()
+                .setQuery(postsQuery, CarParkingLocationModel.class)
+                .build();
+
+        carParkingLocationAdapter = new CarParkingLocationAdapter(options);
+
+        carParkingLocationAdapter.setOnItemClickListener(new ClickListener() {
             @Override
-            public void onItemClick(int position, View v) {
-                if(isUserAdmin()) {
-                    Intent intent = new Intent(CarParkingLocationListActivity.this, AddNewParkingLocation.class);
+            public void onItemClick(CarParkingLocationModel carParkingLocationModel, String locationId) {
+                if (isUserAdmin()) {
+                    carParkingLocationModel.setCarParkingLocationId(locationId);
+                    Intent intent = new Intent(CarParkingLocationListActivity.this,
+                            AddNewParkingLocation.class);
                     intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION, true);
-                    intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA, locationList.get(position));
+                    intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
                     startActivity(intent);
-                }else {
+                } else {
                     Intent intent = new Intent(CarParkingLocationListActivity.this, CarParkingActivity.class);
                     startActivity(intent);
                 }
             }
         });
+
+        recyclerView.setAdapter(carParkingLocationAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        carParkingLocationAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        carParkingLocationAdapter.stopListening();
     }
 
     @Override

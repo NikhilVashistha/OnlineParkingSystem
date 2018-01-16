@@ -1,7 +1,7 @@
 package com.ndroidpro.carparkingsystem.listener;
 
-import android.view.View;
+import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
 
 public interface ClickListener {
-    void onItemClick(int position, View v);
+    void onItemClick(CarParkingLocationModel carParkingLocationModel, String locationId);
 }

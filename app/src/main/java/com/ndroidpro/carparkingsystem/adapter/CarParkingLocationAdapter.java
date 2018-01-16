@@ -1,59 +1,46 @@
 package com.ndroidpro.carparkingsystem.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.listener.ClickListener;
 import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
 
-import java.util.Collections;
-import java.util.List;
+public class CarParkingLocationAdapter extends FirebaseRecyclerAdapter<CarParkingLocationModel, CarParkingLocationViewHolder> {
 
-public class CarParkingLocationAdapter extends RecyclerView.Adapter<CarParkingLocationAdapter.ViewHolder>{
-
-    private List<CarParkingLocationModel> locationList = Collections.emptyList();
     private ClickListener clickListener;
 
-    public CarParkingLocationAdapter( List<CarParkingLocationModel> locationList ) {
-        this.locationList = locationList;
+    public CarParkingLocationAdapter(FirebaseRecyclerOptions options) {
+        super(options);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_car_parking_location, parent, false);
-        return new ViewHolder(v);
+    public CarParkingLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_car_parking_location, parent, false);
+        return new CarParkingLocationViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        CarParkingLocationModel carParkingLocationModel = locationList.get(position);
-        holder.tvName.setText(carParkingLocationModel.getCarParkingLocationName());
-    }
+    protected void onBindViewHolder(CarParkingLocationViewHolder viewHolder, final int position,
+                                    final CarParkingLocationModel carParkingLocationModel) {
+        final DatabaseReference databaseReference = getRef(position);
 
-    @Override
-    public int getItemCount() {
-        return locationList.size();
-    }
+        final String locationId = databaseReference.getKey();
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(carParkingLocationModel, locationId);
+            }
+        });
 
-        private TextView tvName;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tv_item_name);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickListener.onItemClick(getAdapterPosition(), view);
-                }
-            });
-        }
+        viewHolder.bindToPost(carParkingLocationModel);
     }
 
     public void setOnItemClickListener(ClickListener clickListener) {

@@ -5,12 +5,11 @@ import android.os.Parcelable;
 
 public class CarParkingLocationModel implements Parcelable {
 
+    private String carParkingLocationId;
     private String carParkingLocationName;
     private int availableCarParking;
 
-    public CarParkingLocationModel(String carParkingLocationName, int availableCarParking) {
-        this.carParkingLocationName = carParkingLocationName;
-        this.availableCarParking = availableCarParking;
+    public CarParkingLocationModel() {
     }
 
     public String getCarParkingLocationName() {
@@ -29,6 +28,13 @@ public class CarParkingLocationModel implements Parcelable {
         this.availableCarParking = availableCarParking;
     }
 
+    public String getCarParkingLocationId() {
+        return carParkingLocationId;
+    }
+
+    public void setCarParkingLocationId(String carParkingLocationId) {
+        this.carParkingLocationId = carParkingLocationId;
+    }
 
     @Override
     public int describeContents() {
@@ -37,11 +43,13 @@ public class CarParkingLocationModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.carParkingLocationId);
         dest.writeString(this.carParkingLocationName);
         dest.writeInt(this.availableCarParking);
     }
 
     protected CarParkingLocationModel(Parcel in) {
+        this.carParkingLocationId = in.readString();
         this.carParkingLocationName = in.readString();
         this.availableCarParking = in.readInt();
     }
