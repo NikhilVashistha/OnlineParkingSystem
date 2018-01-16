@@ -106,8 +106,8 @@ public class SignInActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
+                                    progressBar.setVisibility(View.GONE);
                                     // there was an error
                                     if (password.length() < 6) {
                                         inputPassword.setError(getString(R.string.minimum_password));
@@ -150,7 +150,7 @@ public class SignInActivity extends AppCompatActivity {
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
+                            progressBar.setVisibility(View.GONE);
                             UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
                             if(userProfile != null) {
                                 if(userProfile.getRole() == Constants.USER_ROLE_ADMIN){
@@ -167,6 +167,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(SignInActivity.this,
                                     "Authentication failed." + databaseError.getMessage(),
                                     Toast.LENGTH_SHORT).show();
