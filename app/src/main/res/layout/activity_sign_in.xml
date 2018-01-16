@@ -58,9 +58,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="Select User Role"/>
+            android:text="Select User Role"
+            android:visibility="gone"/>
 
         <RadioGroup
+            android:visibility="gone"
             android:id="@+id/radio_user_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

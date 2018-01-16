@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +18,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.Session;
+import com.ndroidpro.carparkingsystem.model.UserProfile;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -29,6 +38,7 @@ public class SignInActivity extends AppCompatActivity {
     private RadioGroup radioUserRoleGroup;
     private RadioButton radioUserRoleButton;
     private Session session;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +46,7 @@ public class SignInActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         session = new Session(SignInActivity.this);
 
         if (auth.getCurrentUser() != null) {
@@ -55,9 +65,6 @@ public class SignInActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.btn_reset_password);
 
         radioUserRoleGroup = (RadioGroup) findViewById(R.id.radio_user_role);
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,21 +115,68 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(SignInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    int selectedId = radioUserRoleGroup.getCheckedRadioButtonId();
-
-                                    // find the radiobutton by returned id
-                                    radioUserRoleButton = (RadioButton) findViewById(selectedId);
-                                    if( radioUserRoleButton.getText().toString().equals(getResources().getString(R.string.admin)) ){
-                                        session.setIsAdmin(true);
-                                    }else {
-                                        session.setIsAdmin(false);
-                                    }
-                                    Intent intent = new Intent(SignInActivity.this, CarParkingLocationListActivity.class);
-                                    startActivity(intent);
-                                    finish();
+//                                    int selectedId = radioUserRoleGroup.getCheckedRadioButtonId();
+//
+//                                    // find the radiobutton by returned id
+//                                    radioUserRoleButton = (RadioButton) findViewById(selectedId);
+//                                    if( radioUserRoleButton.getText().toString().equals(getResources().getString(R.string.admin)) ){
+//                                        session.setIsAdmin(true);
+//                                    }else {
+//                                        session.setIsAdmin(false);
+//                                    }
+                                    getUserDetails(auth);
                                 }
                             }
                         });
+            }
+        });
+    }
+
+    public void getUserDetails(FirebaseAuth auth) {
+
+        auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    String mUserId = user.getUid();
+
+                    DatabaseReference databaseReference =
+                            mDatabase
+                                    .child(Constants.DB_USERS)
+                                    .child(mUserId)
+                                    .child(Constants.DB_PROFILE);
+
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                            if(userProfile != null) {
+                                if(userProfile.getRole() == Constants.USER_ROLE_ADMIN){
+                                    session.setIsAdmin(true);
+                                }else {
+                                    session.setIsAdmin(false);
+                                }
+                                Intent intent = new Intent(SignInActivity.this,
+                                        CarParkingLocationListActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(SignInActivity.this,
+                                    "Authentication failed." + databaseError.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    Log.i("AuthStateChanged", "No user is signed in.");
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
     }
