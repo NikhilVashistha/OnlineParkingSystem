@@ -3,11 +3,15 @@ package com.ndroidpro.carparkingsystem.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class CarParkingLocationModel implements Parcelable {
 
     private String carParkingLocationId;
     private String carParkingLocationName;
     private int availableCarParking;
+
+    private ArrayList<Slots> mSlots;
 
     public CarParkingLocationModel() {
     }
@@ -36,6 +40,14 @@ public class CarParkingLocationModel implements Parcelable {
         this.carParkingLocationId = carParkingLocationId;
     }
 
+    public ArrayList<Slots> getSlots() {
+        return mSlots;
+    }
+
+    public void setSlots(ArrayList<Slots> slots) {
+        mSlots = slots;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -46,12 +58,15 @@ public class CarParkingLocationModel implements Parcelable {
         dest.writeString(this.carParkingLocationId);
         dest.writeString(this.carParkingLocationName);
         dest.writeInt(this.availableCarParking);
+        dest.writeList(this.mSlots);
     }
 
     protected CarParkingLocationModel(Parcel in) {
         this.carParkingLocationId = in.readString();
         this.carParkingLocationName = in.readString();
         this.availableCarParking = in.readInt();
+        this.mSlots = new ArrayList<Slots>();
+        in.readList(this.mSlots, getClass().getClassLoader());
     }
 
     public static final Creator<CarParkingLocationModel> CREATOR = new Creator<CarParkingLocationModel>() {

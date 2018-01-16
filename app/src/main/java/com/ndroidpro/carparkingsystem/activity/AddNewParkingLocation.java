@@ -18,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
+
+import java.util.ArrayList;
 
 public class AddNewParkingLocation extends BaseActivity {
 
@@ -108,6 +111,16 @@ public class AddNewParkingLocation extends BaseActivity {
         final CarParkingLocationModel carParkingLocationModel = new CarParkingLocationModel();
         carParkingLocationModel.setCarParkingLocationName(parkingLocationName);
         carParkingLocationModel.setAvailableCarParking(Integer.parseInt(parkingAvailable));
+
+        ArrayList<Slots> mSlots = new ArrayList<>();
+
+        for(int i=0; i< carParkingLocationModel.getAvailableCarParking(); i++) {
+            Slots slots = new Slots();
+            slots.setParkingLocationId(mLocationId);
+            slots.setParkingSlotId(i+1);
+            mSlots.add(slots);
+        }
+        carParkingLocationModel.setSlots(mSlots);
 
         setEditingEnabled(false);
 
