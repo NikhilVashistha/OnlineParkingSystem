@@ -65,7 +65,7 @@ public class CarParkingLocationListActivity extends BaseActivity {
         carParkingLocationAdapter.setOnItemClickListener(new ClickListener() {
             @Override
             public void onItemClick(CarParkingLocationModel carParkingLocationModel, String locationId) {
-                if (isUserAdmin()) {
+                /* if (isUserAdmin()) {
                     carParkingLocationModel.setCarParkingLocationId(locationId);
                     Intent intent = new Intent(CarParkingLocationListActivity.this,
                             AddNewParkingLocation.class);
@@ -77,6 +77,10 @@ public class CarParkingLocationListActivity extends BaseActivity {
                     intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
                     startActivity(intent);
                 }
+                */
+                Intent intent = new Intent(CarParkingLocationListActivity.this, CarParkingActivity.class);
+                intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
+                startActivity(intent);
             }
         });
 

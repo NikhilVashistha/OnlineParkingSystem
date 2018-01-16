@@ -83,7 +83,7 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
             }
         }
 
-        adapter = new CarParkingAdapter(this, items);
+        adapter = new CarParkingAdapter(CarParkingActivity.this, items);
         recyclerView.setAdapter(adapter);
     }
 

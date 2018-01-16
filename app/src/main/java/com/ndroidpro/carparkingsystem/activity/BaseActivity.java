@@ -68,6 +68,10 @@ public class BaseActivity extends AppCompatActivity {
         return session.getIsAdmin();
     }
 
+    public boolean isUserCustomer(){
+        return !session.getIsAdmin();
+    }
+
     public boolean isNonEmpty(String s){
         return !TextUtils.isEmpty(s);
     }

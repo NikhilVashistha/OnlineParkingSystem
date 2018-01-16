@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ndroidpro.carparkingsystem.R;
+import com.ndroidpro.carparkingsystem.activity.CarParkingActivity;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 import com.ndroidpro.carparkingsystem.model.CarParkingModel;
 
@@ -117,12 +118,15 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
             final CenterViewHolder holder = (CenterViewHolder) viewHolder;
 
             holder.imgAvailableParking.setRotation(-90);
-            holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPriceDialog(holder.imgAvailableParking.getContext(), position);
-                }
-            });
+
+            if(((CarParkingActivity)mContext).isUserCustomer()) {
+                holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showPriceDialog(holder.imgAvailableParking.getContext(), position);
+                    }
+                });
+            }
 
             holder.imgAvailableParking.setVisibility(isSelected(position) ? View.GONE : View.VISIBLE);
 
@@ -143,13 +147,16 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
             final EdgeViewHolder holder = (EdgeViewHolder) viewHolder;
 
             holder.imgAvailableParking.setRotation(90);
-            holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    showPriceDialog(holder.imgAvailableParking.getContext(), position);
-                }
-            });
+            if(((CarParkingActivity)mContext).isUserCustomer()) {
+                holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        showPriceDialog(holder.imgAvailableParking.getContext(), position);
+                    }
+                });
+            }
 
             holder.imgAvailableParking.setVisibility(isSelected(position) ? View.GONE : View.VISIBLE);
 
