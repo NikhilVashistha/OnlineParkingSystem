@@ -74,6 +74,7 @@ public class CarParkingLocationListActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(CarParkingLocationListActivity.this, CarParkingActivity.class);
+                    intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
                     startActivity(intent);
                 }
             }
