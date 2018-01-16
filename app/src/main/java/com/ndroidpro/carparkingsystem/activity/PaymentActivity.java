@@ -9,12 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.model.CarParkingModel;
@@ -23,7 +31,7 @@ import com.ndroidpro.carparkingsystem.service.ScheduleClient;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends BaseActivity {
 
     // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
@@ -71,18 +79,49 @@ public class PaymentActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_paid) {
             if(mCarParkingModel != null) {
                 showCarParkingBookedNotification();
 
                 scheduleCarParkingExpiringNotification();
+
+                sendNotificationUsingFcm();
             }
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendNotificationUsingFcm() {
+        FirebaseMessaging.getInstance().subscribeToTopic("user_"+ getUserId());
+        mCarParkingModel.setToken(FirebaseInstanceId.getInstance().getToken());
+        showProgressDialog();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase
+                .child(Constants.DB_NOTIFICATION_REQUESTS)
+                .push()
+                .setValue(mCarParkingModel)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        hideProgressDialog();
+                        if (task.isSuccessful()) {
+                            ToastUtils.showLong("Request taken to book parking.");
+                            finish();
+                        } else {
+                            ToastUtils.showLong("Please Try Again");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        hideProgressDialog();
+                        ToastUtils.showLong(e.getMessage());
+                    }
+                });
     }
 
     @Override

@@ -9,6 +9,8 @@ public class CarParkingModel implements Parcelable {
     private String label;
     private int hour;
     private int price;
+    private String userId;
+    private String token;
 
     public int getSelectedPosition() {
         return selectedPosition;
@@ -42,6 +44,24 @@ public class CarParkingModel implements Parcelable {
         this.price = price;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public CarParkingModel() {
+    }
 
     @Override
     public int describeContents() {
@@ -54,9 +74,8 @@ public class CarParkingModel implements Parcelable {
         dest.writeString(this.label);
         dest.writeInt(this.hour);
         dest.writeInt(this.price);
-    }
-
-    public CarParkingModel() {
+        dest.writeString(this.userId);
+        dest.writeString(this.token);
     }
 
     protected CarParkingModel(Parcel in) {
@@ -64,9 +83,11 @@ public class CarParkingModel implements Parcelable {
         this.label = in.readString();
         this.hour = in.readInt();
         this.price = in.readInt();
+        this.userId = in.readString();
+        this.token = in.readString();
     }
 
-    public static final Parcelable.Creator<CarParkingModel> CREATOR = new Parcelable.Creator<CarParkingModel>() {
+    public static final Creator<CarParkingModel> CREATOR = new Creator<CarParkingModel>() {
         public CarParkingModel createFromParcel(Parcel source) {
             return new CarParkingModel(source);
         }

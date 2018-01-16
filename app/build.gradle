@@ -30,6 +30,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-compat:${rootProject.ext.supportLibVersion}"
     compile "com.google.firebase:firebase-auth:${rootProject.ext.firebaseLibVersion}"
+    compile "com.google.firebase:firebase-messaging:${rootProject.ext.firebaseLibVersion}"
 
     compile ("com.firebaseui:firebase-ui-database:3.1.3") {
         exclude group: 'com.android.support'

@@ -51,7 +51,7 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
         mBtnSeatSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mCarParkingModel.setUserId(getUserId());
                 Intent intent = new Intent(CarParkingActivity.this, PaymentActivity.class);
                 intent.putExtra(Constants.INTENT_PAYMENT, mCarParkingModel);
                 startActivity(intent);
