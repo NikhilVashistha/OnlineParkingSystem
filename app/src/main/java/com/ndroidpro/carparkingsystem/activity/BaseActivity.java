@@ -38,7 +38,7 @@ public class BaseActivity extends AppCompatActivity {
                     // user auth state is changed - user is null
                     // launch login activity
                     ActivityUtils.startActivity(SignInActivity.class);
-                    ActivityUtils.finishToActivity(SignInActivity.class, false, true);
+                    ActivityUtils.finishOtherActivities(SignInActivity.class, true);
                 }else {
                     mUserId = user.getUid();
                 }

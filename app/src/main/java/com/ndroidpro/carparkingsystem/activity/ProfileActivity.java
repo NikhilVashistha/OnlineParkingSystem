@@ -201,7 +201,7 @@ public class ProfileActivity extends BaseActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(ProfileActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
                                         ActivityUtils.startActivity(SignUpActivity.class);
-                                        ActivityUtils.finishToActivity(SignUpActivity.class, false, true);
+                                        ActivityUtils.finishOtherActivities(SignUpActivity.class, true);
                                         progressBar.setVisibility(View.GONE);
                                     } else {
                                         Toast.makeText(ProfileActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();

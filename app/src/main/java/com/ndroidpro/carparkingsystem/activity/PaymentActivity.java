@@ -110,7 +110,7 @@ public class PaymentActivity extends BaseActivity {
                         hideProgressDialog();
                         if (task.isSuccessful()) {
                             ToastUtils.showLong("Request taken to book parking.");
-                            ActivityUtils.finishToActivity(CarParkingLocationListActivity.class, false, true);
+                            ActivityUtils.finishOtherActivities(CarParkingLocationListActivity.class, true);
                         } else {
                             ToastUtils.showLong("Please Try Again");
                         }

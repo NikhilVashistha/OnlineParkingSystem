@@ -110,6 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
@@ -141,8 +142,13 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
+
                                         mSession.setIsAdmin(false);
-                                        ActivityUtils.finishActivity(SignUpActivity.this, true);
+
+                                        ActivityUtils.startActivity(CarParkingLocationListActivity.class);
+                                        ActivityUtils.finishOtherActivities(CarParkingLocationListActivity.class,
+                                                 true);
+
                                         Log.i("AuthStateChanged", "User is signed in with uid: " + user.getUid());
 
                                         // The user's ID, unique to the Firebase project. Do NOT use this value to
