@@ -1,5 +1,6 @@
 package com.ndroidpro.carparkingsystem.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -159,7 +160,10 @@ public class SignInActivity extends AppCompatActivity {
                                     session.setIsAdmin(false);
                                 }
 
-                                ActivityUtils.startActivity(CarParkingLocationListActivity.class);
+                                Intent intent = new Intent(SignInActivity.this, CarParkingLocationListActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                ActivityUtils.startActivity(intent);
                                 ActivityUtils.finishActivity(SignInActivity.this, true);
                             }
                         }
