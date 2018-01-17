@@ -42,7 +42,7 @@ public class AddNewParkingLocation extends BaseActivity {
         Intent intent = getIntent();
         if(intent != null) {
             editDetails = intent.getBooleanExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION, false);
-            mCarParkingLocationModel = intent.getParcelableExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA);
+            mCarParkingLocationModel = intent.getParcelableExtra(Constants.INTENT_CAR_PARKING_LOCATION_DATA);
         }
 
         findViews();

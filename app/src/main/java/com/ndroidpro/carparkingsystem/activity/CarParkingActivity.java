@@ -39,7 +39,7 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
 
         Intent intent = getIntent();
         if(intent != null) {
-            mCarParkingLocationModel = intent.getParcelableExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION_DATA);
+            mCarParkingLocationModel = intent.getParcelableExtra(Constants.INTENT_CAR_PARKING_LOCATION_DATA);
         }
 
         mBtnSeatSelected = (AppCompatButton)findViewById(R.id.txt_seat_selected);
