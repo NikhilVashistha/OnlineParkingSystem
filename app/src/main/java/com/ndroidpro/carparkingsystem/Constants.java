@@ -15,5 +15,7 @@ public class Constants {
     // 1 for Super Admin , 2 for customer
     public static final int USER_ROLE_ADMIN = 1;
     public static final int USER_ROLE_CUSTOMER = 2;
+
+    public static final String DB_USER_NAME = "userName";
 }
 
