@@ -1,6 +1,5 @@
 package com.ndroidpro.carparkingsystem.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -50,8 +50,8 @@ public class SignInActivity extends AppCompatActivity {
         session = new Session(SignInActivity.this);
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(SignInActivity.this, CarParkingLocationListActivity.class));
-            finish();
+            ActivityUtils.startActivity(CarParkingLocationListActivity.class);
+            ActivityUtils.finishActivity(SignInActivity.this, true);
         }
 
         // set the view now
@@ -69,14 +69,14 @@ public class SignInActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+                ActivityUtils.startActivity(SignUpActivity.class);
             }
         });
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class));
+                ActivityUtils.startActivity(ResetPasswordActivity.class);
             }
         });
 
@@ -158,10 +158,9 @@ public class SignInActivity extends AppCompatActivity {
                                 }else {
                                     session.setIsAdmin(false);
                                 }
-                                Intent intent = new Intent(SignInActivity.this,
-                                        CarParkingLocationListActivity.class);
-                                startActivity(intent);
-                                finish();
+
+                                ActivityUtils.startActivity(CarParkingLocationListActivity.class);
+                                ActivityUtils.finishActivity(SignInActivity.this, true);
                             }
                         }
 

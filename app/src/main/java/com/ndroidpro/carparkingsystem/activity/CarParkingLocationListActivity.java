@@ -1,6 +1,5 @@
 package com.ndroidpro.carparkingsystem.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,8 +34,7 @@ public class CarParkingLocationListActivity extends BaseActivity {
         addCarParkingLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CarParkingLocationListActivity.this, AddNewParkingLocation.class);
-                startActivity(intent);
+                ActivityUtils.startActivity(AddNewParkingLocation.class);
             }
         });
 
@@ -65,9 +64,9 @@ public class CarParkingLocationListActivity extends BaseActivity {
         carParkingLocationAdapter.setOnItemClickListener(new ClickListener() {
             @Override
             public void onItemClick(CarParkingLocationModel carParkingLocationModel, String locationId) {
-                Intent intent = new Intent(CarParkingLocationListActivity.this, CarParkingActivity.class);
-                intent.putExtra(Constants.INTENT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.INTENT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
+                ActivityUtils.startActivity(bundle, CarParkingActivity.class);
             }
         });
 
@@ -102,7 +101,7 @@ public class CarParkingLocationListActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(CarParkingLocationListActivity.this, ProfileActivity.class));
+            ActivityUtils.startActivity(ProfileActivity.class);
             return true;
         }
 

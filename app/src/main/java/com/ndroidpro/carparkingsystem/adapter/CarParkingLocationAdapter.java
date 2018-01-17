@@ -1,11 +1,12 @@
 package com.ndroidpro.carparkingsystem.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -53,11 +54,11 @@ public class CarParkingLocationAdapter extends FirebaseRecyclerAdapter<CarParkin
             public void onClick(View view) {
                 if (userAdmin) {
                     carParkingLocationModel.setCarParkingLocationId(locationId);
-                    Intent intent = new Intent(context,
-                            AddNewParkingLocation.class);
-                    intent.putExtra(Constants.INTENT_EDIT_CAR_PARKING_LOCATION, true);
-                    intent.putExtra(Constants.INTENT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
-                     context.startActivity(intent);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(Constants.INTENT_EDIT_CAR_PARKING_LOCATION, true);
+                    bundle.putParcelable(Constants.INTENT_CAR_PARKING_LOCATION_DATA, carParkingLocationModel);
+                    ActivityUtils.startActivity(bundle, AddNewParkingLocation.class);
                 }
             }
         });

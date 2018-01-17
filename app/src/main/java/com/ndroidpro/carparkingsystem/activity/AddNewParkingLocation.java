@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -137,7 +138,7 @@ public class AddNewParkingLocation extends BaseActivity {
                         if (task.isSuccessful()) {
                             ToastUtils.showLong("Event Details Saved Successfully");
                             setEditingEnabled(true);
-                            finish();
+                            ActivityUtils.finishActivity(AddNewParkingLocation.this, true);
                         } else {
                             ToastUtils.showLong("Please Try Again");
                         }

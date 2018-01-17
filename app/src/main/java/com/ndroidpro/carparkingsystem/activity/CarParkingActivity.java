@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
@@ -54,13 +55,11 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
             @Override
             public void onClick(View view) {
                 mCarParkingModel.setUserId(getUserId());
-                Intent intent = new Intent(CarParkingActivity.this, PaymentActivity.class);
-                intent.putExtra(Constants.INTENT_PAYMENT, mCarParkingModel);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.INTENT_PAYMENT, mCarParkingModel);
+                ActivityUtils.startActivity(bundle, PaymentActivity.class);
             }
         });
-
-
     }
 
     @Override

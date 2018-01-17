@@ -243,7 +243,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 CarParkingModel carParkingModel = new CarParkingModel();
                 carParkingModel.setHour(hour);
                 carParkingModel.setPrice(price);
-                carParkingModel.setLabel(String.valueOf(position + 1 ));
+                carParkingModel.setLabel(String.valueOf( position + 1 ));
                 carParkingModel.setSlots(slot);
 
                 mOnParkingSelected.onParkingSelected( carParkingModel );

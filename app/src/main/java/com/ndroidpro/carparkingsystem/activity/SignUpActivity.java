@@ -1,6 +1,5 @@
 package com.ndroidpro.carparkingsystem.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -56,14 +56,14 @@ public class SignUpActivity extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
+                ActivityUtils.startActivity(ResetPasswordActivity.class);
             }
         });
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                ActivityUtils.finishActivity(SignUpActivity.this, true);
             }
         });
 
@@ -142,8 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         mSession.setIsAdmin(false);
-                                        startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
-                                        finish();
+                                        ActivityUtils.finishActivity(SignUpActivity.this, true);
                                         Log.i("AuthStateChanged", "User is signed in with uid: " + user.getUid());
 
                                         // The user's ID, unique to the Firebase project. Do NOT use this value to

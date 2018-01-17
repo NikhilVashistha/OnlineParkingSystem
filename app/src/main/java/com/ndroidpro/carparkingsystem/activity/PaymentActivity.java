@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -109,7 +110,7 @@ public class PaymentActivity extends BaseActivity {
                         hideProgressDialog();
                         if (task.isSuccessful()) {
                             ToastUtils.showLong("Request taken to book parking.");
-                            finish();
+                            ActivityUtils.finishToActivity(CarParkingLocationListActivity.class, false, true);
                         } else {
                             ToastUtils.showLong("Please Try Again");
                         }
