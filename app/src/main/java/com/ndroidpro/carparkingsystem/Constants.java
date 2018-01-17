@@ -5,7 +5,6 @@ public class Constants {
     public static final String INTENT_EDIT_CAR_PARKING_LOCATION = "com.ndroidpro.carparkingsystem.INTENT_EDIT_CAR_PARKING_LOCATION";
     public static final String INTENT_CAR_PARKING_LOCATION_DATA = "com.ndroidpro.carparkingsystem.INTENT_CAR_PARKING_LOCATION_DATA";
 
-
     public static final String DB_USERS = "users";
     public static final String DB_PROFILE = "user_profile";
 
@@ -17,5 +16,8 @@ public class Constants {
     public static final int USER_ROLE_CUSTOMER = 2;
 
     public static final String DB_USER_NAME = "userName";
+
+    public static final String NOTIFICATION_CUSTOMER_TOPIC = "customer_";
+    public static final String NOTIFICATION_ADMIN_TOPIC = "admin_";
 }
 

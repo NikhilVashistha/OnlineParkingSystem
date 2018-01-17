@@ -14,6 +14,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.adapter.CarParkingLocationAdapter;
@@ -39,8 +40,10 @@ public class CarParkingLocationListActivity extends BaseActivity {
         });
 
         if(isUserAdmin()) {
+            FirebaseMessaging.getInstance().subscribeToTopic(Constants.NOTIFICATION_ADMIN_TOPIC + getUserId());
             addCarParkingLocation.setVisibility(View.VISIBLE);
         }else {
+            FirebaseMessaging.getInstance().subscribeToTopic(Constants.NOTIFICATION_CUSTOMER_TOPIC + getUserId());
             addCarParkingLocation.setVisibility(View.GONE);
         }
 

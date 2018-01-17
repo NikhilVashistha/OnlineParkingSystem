@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.model.CarParkingModel;
@@ -96,7 +95,6 @@ public class PaymentActivity extends BaseActivity {
     }
 
     private void sendNotificationUsingFcm() {
-        FirebaseMessaging.getInstance().subscribeToTopic("user_"+ getUserId());
         mCarParkingModel.setToken(FirebaseInstanceId.getInstance().getToken());
         showProgressDialog();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
