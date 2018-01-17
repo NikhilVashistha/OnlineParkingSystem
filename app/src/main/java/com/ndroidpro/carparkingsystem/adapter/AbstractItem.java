@@ -1,13 +1,13 @@
 package com.ndroidpro.carparkingsystem.adapter;
 
-import com.ndroidpro.carparkingsystem.model.CarParkingModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
 
 public abstract class AbstractItem {
 
     public static final int TYPE_CENTER = 0;
     public static final int TYPE_EDGE = 1;
     public static final int TYPE_EMPTY = 2;
-    private CarParkingModel mCarParkingModel;
+    private Slots mSlot;
 
     private String label;
 
@@ -16,16 +16,16 @@ public abstract class AbstractItem {
         this.label = label;
     }
 
-    public AbstractItem(CarParkingModel carParkingModel) {
-        this.mCarParkingModel = carParkingModel;
+    public AbstractItem(Slots slot) {
+        this.mSlot = slot;
     }
 
-    public CarParkingModel getCarParkingModel() {
-        return mCarParkingModel;
+    public Slots getSlot() {
+        return mSlot;
     }
 
-    public void setCarParkingModel(CarParkingModel carParkingModel) {
-        mCarParkingModel = carParkingModel;
+    public void setSlot(Slots slot) {
+        mSlot = slot;
     }
 
     public void setLabel(String label) {

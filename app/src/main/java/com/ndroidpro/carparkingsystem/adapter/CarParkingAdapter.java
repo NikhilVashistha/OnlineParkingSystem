@@ -2,10 +2,8 @@ package com.ndroidpro.carparkingsystem.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.activity.CarParkingActivity;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 import com.ndroidpro.carparkingsystem.model.CarParkingModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.Random;
 public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
 
     private OnParkingSelected mOnParkingSelected;
+    private int mSelectedPosition;
 
     private static class EdgeViewHolder extends RecyclerView.ViewHolder {
 
@@ -110,8 +110,13 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
+
         int type = getItem(position).getType();
-        int showCarParkingId = position + 1;
+
+        Slots slot = getItem(position).getSlot();
+
+        CarParkingActivity carParkingActivity = (CarParkingActivity) mContext;
+
         if (type == AbstractItem.TYPE_CENTER) {
 
             final CenterItem item = (CenterItem) getItem(position);
@@ -119,7 +124,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
             holder.imgAvailableParking.setRotation(-90);
 
-            if(((CarParkingActivity)mContext).isUserCustomer()) {
+            if(carParkingActivity.isUserCustomer()) {
                 holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -128,18 +133,22 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 });
             }
 
-            holder.imgAvailableParking.setVisibility(isSelected(position) ? View.GONE : View.VISIBLE);
-
-            holder.imgParkingSelected.setRotation(-90);
-            holder.imgParkingSelected.setVisibility(isSelected(position) ? View.VISIBLE : View.GONE);
-
-            if(isSelected(position)) {
+            if(slot.isBooked()){
                 holder.imgParkingSelected.setColorFilter(
                         holder.imgParkingSelected.getContext().getResources()
                                 .getColor(getColors()));
+            }else {
+                holder.imgParkingSelected.setColorFilter(
+                        holder.imgParkingSelected.getContext().getResources()
+                                .getColor(R.color.car_grey));
             }
 
-            holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
+            holder.imgAvailableParking.setVisibility(slot.isBooked() ? View.GONE : View.VISIBLE);
+
+            holder.imgParkingSelected.setRotation(-90);
+            holder.imgParkingSelected.setVisibility(slot.isBooked() ? View.VISIBLE : View.GONE);
+
+            holder.tvCarParkingId.setText(String.valueOf(slot.getParkingSlotId()));
 
         } else if (type == AbstractItem.TYPE_EDGE) {
 
@@ -148,7 +157,7 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
 
             holder.imgAvailableParking.setRotation(90);
 
-            if(((CarParkingActivity)mContext).isUserCustomer()) {
+            if(carParkingActivity.isUserCustomer()) {
                 holder.imgAvailableParking.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -158,28 +167,24 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 });
             }
 
-            holder.imgAvailableParking.setVisibility(isSelected(position) ? View.GONE : View.VISIBLE);
-
-            holder.imgParkingSelected.setRotation(90);
-            holder.imgParkingSelected.setVisibility(isSelected(position) ? View.VISIBLE : View.GONE);
-
-            if(isSelected(position)) {
+            if(slot.isBooked()){
                 holder.imgParkingSelected.setColorFilter(
                         holder.imgParkingSelected.getContext().getResources()
                                 .getColor(getColors()));
+            }else {
+                holder.imgParkingSelected.setColorFilter(
+                        holder.imgParkingSelected.getContext().getResources()
+                                .getColor(R.color.car_grey));
             }
 
-            holder.tvCarParkingId.setText(String.valueOf(showCarParkingId));
+            holder.imgAvailableParking.setVisibility(slot.isBooked() ? View.GONE : View.VISIBLE);
+
+            holder.imgParkingSelected.setRotation(90);
+            holder.imgParkingSelected.setVisibility(slot.isBooked() ? View.VISIBLE : View.GONE);
+
+            holder.tvCarParkingId.setText(String.valueOf(slot.getParkingSlotId()));
 
         }
-    }
-
-    private int dpTopx(int dpValue) {
-        Resources r = mContext.getResources();
-        return (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dpValue,
-                r.getDisplayMetrics());
     }
 
     private int getColors(){
@@ -224,13 +229,24 @@ public class CarParkingAdapter extends SelectableAdapter<RecyclerView.ViewHolder
                 }
 
                 toggleSelection(position);
+
                 AbstractItem abstractItem = getItem(position);
+
+                Slots previousSelectedSlot = getItem(mSelectedPosition).getSlot();
+                previousSelectedSlot.setBooked(false);
+                mSelectedPosition = position;
+
+                Slots slot = abstractItem.getSlot();
+                slot.setBooked(true);
+                slot.setLastBookingTime(System.currentTimeMillis());
+
                 CarParkingModel carParkingModel = new CarParkingModel();
                 carParkingModel.setHour(hour);
                 carParkingModel.setPrice(price);
                 carParkingModel.setLabel(String.valueOf(position + 1 ));
-                abstractItem.setCarParkingModel(carParkingModel);
-                mOnParkingSelected.onParkingSelected( abstractItem.getCarParkingModel() );
+                carParkingModel.setSlots(slot);
+
+                mOnParkingSelected.onParkingSelected( carParkingModel );
             }
         });
         builder.show();

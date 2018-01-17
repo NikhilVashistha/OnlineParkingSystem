@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ndroidpro.carparkingsystem.Constants;
 import com.ndroidpro.carparkingsystem.R;
 import com.ndroidpro.carparkingsystem.adapter.AbstractItem;
@@ -17,6 +18,7 @@ import com.ndroidpro.carparkingsystem.adapter.EdgeItem;
 import com.ndroidpro.carparkingsystem.listener.OnParkingSelected;
 import com.ndroidpro.carparkingsystem.model.CarParkingLocationModel;
 import com.ndroidpro.carparkingsystem.model.CarParkingModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,15 +72,14 @@ public class CarParkingActivity extends BaseActivity implements OnParkingSelecte
     private void setDataToRecyclerView() {
         List<AbstractItem> items = new ArrayList<>();
 
-        if( mCarParkingLocationModel != null ) {
-            CarParkingModel carParkingModel = new CarParkingModel();
+        if( mCarParkingLocationModel != null  && ObjectUtils.isNotEmpty(mCarParkingLocationModel.getSlots())) {
 
-            for ( int i=0; i< mCarParkingLocationModel.getAvailableCarParking(); i++ ) {
-                carParkingModel.setLabel(String.valueOf(i));
+            for (int i = 0; i < mCarParkingLocationModel.getSlots().size(); i++){
+                Slots slot = mCarParkingLocationModel.getSlots().get(i);
                 if ( i%2 == 0 ) {
-                    items.add(new EdgeItem(carParkingModel));
+                    items.add(new EdgeItem(slot));
                 } else {
-                    items.add(new CenterItem(carParkingModel));
+                    items.add(new CenterItem(slot));
                 }
             }
         }

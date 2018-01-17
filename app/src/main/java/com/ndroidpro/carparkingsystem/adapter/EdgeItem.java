@@ -1,17 +1,15 @@
 package com.ndroidpro.carparkingsystem.adapter;
 
-import com.ndroidpro.carparkingsystem.model.CarParkingModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
 
 public class EdgeItem extends AbstractItem {
-
-    private CarParkingModel mCarParkingModel;
 
     public EdgeItem(String label) {
         super(label);
     }
 
-    public EdgeItem(CarParkingModel carParkingModel) {
-        super(carParkingModel);
+    public EdgeItem(Slots slot) {
+        super(slot);
     }
 
     @Override

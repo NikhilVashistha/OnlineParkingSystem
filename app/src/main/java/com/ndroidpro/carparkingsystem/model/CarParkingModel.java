@@ -11,6 +11,15 @@ public class CarParkingModel implements Parcelable {
     private int price;
     private String userId;
     private String token;
+    private Slots mSlots;
+
+    public Slots getSlots() {
+        return mSlots;
+    }
+
+    public void setSlots(Slots slots) {
+        mSlots = slots;
+    }
 
     public int getSelectedPosition() {
         return selectedPosition;
@@ -76,6 +85,7 @@ public class CarParkingModel implements Parcelable {
         dest.writeInt(this.price);
         dest.writeString(this.userId);
         dest.writeString(this.token);
+        dest.writeParcelable(this.mSlots, 0);
     }
 
     protected CarParkingModel(Parcel in) {
@@ -85,6 +95,7 @@ public class CarParkingModel implements Parcelable {
         this.price = in.readInt();
         this.userId = in.readString();
         this.token = in.readString();
+        this.mSlots = in.readParcelable(Slots.class.getClassLoader());
     }
 
     public static final Creator<CarParkingModel> CREATOR = new Creator<CarParkingModel>() {

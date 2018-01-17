@@ -1,17 +1,15 @@
 package com.ndroidpro.carparkingsystem.adapter;
 
-import com.ndroidpro.carparkingsystem.model.CarParkingModel;
+import com.ndroidpro.carparkingsystem.model.Slots;
 
 public class CenterItem extends AbstractItem {
-
-    private CarParkingModel mCarParkingModel;
 
     public CenterItem(String label) {
         super(label);
     }
 
-    public CenterItem(CarParkingModel carParkingModel) {
-        super(carParkingModel);
+    public CenterItem(Slots slot) {
+        super(slot);
     }
 
     @Override
